@@ -1,0 +1,15 @@
+C:\Users\matej\Documents\_personal\chess\chess\Chess\bin\Debug\net9.0\Chess.exe
+C:\Users\matej\Documents\_personal\chess\chess\Chess\bin\Debug\net9.0\Chess.deps.json
+C:\Users\matej\Documents\_personal\chess\chess\Chess\bin\Debug\net9.0\Chess.runtimeconfig.json
+C:\Users\matej\Documents\_personal\chess\chess\Chess\bin\Debug\net9.0\Chess.dll
+C:\Users\matej\Documents\_personal\chess\chess\Chess\bin\Debug\net9.0\Chess.pdb
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.AssemblyInfoInputs.cache
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.AssemblyInfo.cs
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.csproj.CoreCompileInputs.cache
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.sourcelink.json
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.dll
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\refint\Chess.dll
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.pdb
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\Chess.genruntimeconfig.cache
+C:\Users\matej\Documents\_personal\chess\chess\Chess\obj\Debug\net9.0\ref\Chess.dll
