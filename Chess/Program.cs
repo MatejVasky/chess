@@ -1,22 +1,22 @@
-﻿using Chess.Chess;
+﻿// using Chess.Chess;
 
-static void PrintMove(Move move)
-{
-    Console.WriteLine(
-        ((char)('a' + move.from_y)).ToString() + ((char)('1' + move.from_x)).ToString() +
-        " -> " +
-        (char)('a' + move.to_y) + (char)('1' + move.to_x) +
-        ((move.capture == 0) ? "" : " (takes " + ChessGame.piece_names[move.capture] + ")") +
-        ((move.promotion == 0) ? "" : " (promotes to " + ChessGame.piece_names[(move.promotion ^ ChessGame.PAWN) | ChessGame.WHITE] + ")") +
-        " " + move.rule50counter_update.ToString()
-    );
-}
+// static void PrintMove(Move move)
+// {
+//     Console.WriteLine(
+//         ((char)('a' + move.from_y)).ToString() + ((char)('1' + move.from_x)).ToString() +
+//         " -> " +
+//         (char)('a' + move.to_y) + (char)('1' + move.to_x) +
+//         ((move.capture == 0) ? "" : " (takes " + ChessGame.piece_names[move.capture] + ")") +
+//         ((move.promotion == 0) ? "" : " (promotes to " + ChessGame.piece_names[(move.promotion ^ ChessGame.PAWN) | ChessGame.WHITE] + ")") +
+//         " " + move.rule50counter_update.ToString()
+//     );
+// }
 
-ChessGame game = new();
-game.PrintBoard();
+// ChessGame game = new();
+// game.PrintBoard();
 
-foreach (Move move in game.GetMoves())
-    PrintMove(move);
+// foreach (Move move in game.GetMoves())
+//     PrintMove(move);
 
 // Move e5 = new() { from_x = 1, from_y = 4, to_x = 3, to_y = 4, capture = 0, promotion = 0 };
 // Console.WriteLine(game.MakeMove(e5));
@@ -99,10 +99,103 @@ foreach (Move move in game.GetMoves())
 // Console.WriteLine($"axb8=Q = 'axb8=Q': {game.MoveMatchesNotation(axb8Q, "axb8=Q")}");
 
 
+// while (true)
+// {
+//     game.PrintBoard();
+//     Console.WriteLine();
+
+//     Move? move;
+//     while (true)
+//     {
+//         Console.Write("Move: ");
+//         string? notation = Console.ReadLine();
+//         if (notation is null) return -1;
+
+//         if (notation == "undo")
+//         {
+//             try
+//             {
+//                 move = null;
+//                 break;
+//             }
+//             catch
+//             { }
+//         }
+
+//         try
+//             {
+//                 move = game.FindMove(notation);
+//                 break;
+//             }
+//             catch (KeyNotFoundException) { }
+//     }
+
+//     if (move is null)
+//     {
+//         try
+//         {
+//             game.UndoMakeMove();
+//             Console.WriteLine();
+//         }
+//         catch { }
+//         continue;
+//     }
+
+//     game.MakeMove((Move)move);
+//     Console.WriteLine();
+
+//     if (game.HasEnded())
+//     {
+//         game.PrintBoard();
+//         Console.WriteLine();
+//         switch (game.Winner)
+//         {
+//             case ChessGame.WHITE:
+//                 Console.WriteLine("White wins!");
+//                 break;
+//             case ChessGame.BLACK:
+//                 Console.WriteLine("Black wins!");
+//                 break;
+//             default:
+//                 Console.WriteLine("Draw");
+//                 break;
+//         }
+//         return 0;
+//     }
+// }
+
+
+using Chess.Hexapawn;
+using Chess.Minimax;
+
+HexapawnGame game = new();
+Minimaxer minimaxer = new(new HexapawnEndstateEvaluator(), new ZeroStaticEvaluator());
+
+// game.PrintBoard(); Console.WriteLine();
+// game.MakeMove(new Move { from_x = 0, from_y = 1, to_x = 1, to_y = 1, capture = 0 });
+// game.PrintBoard(); Console.WriteLine();
+// // foreach (Move move in game.GetMoves())
+// //     Console.WriteLine($"{move.from_x} {move.from_y} {move.to_x} {move.to_y} {move.capture}");
+// game.MakeMove(new Move { from_x = 2, from_y = 0, to_x = 1, to_y = 1, capture = 1 });
+// game.PrintBoard(); Console.WriteLine();
+// game.MakeMove(new Move { from_x = 0, from_y = 0, to_x = 1, to_y = 1, capture = 2 });
+// game.PrintBoard(); Console.WriteLine();
+// // game.MakeMove(new Move { from_x = 2, from_y = 2, to_x = 1, to_y = 1, capture = 1 });
+// // game.PrintBoard(); Console.WriteLine();
+// // game.MakeMove(new Move { from_x = 0, from_y = 2, to_x = 1, to_y = 1, capture = 2 });
+// // game.PrintBoard(); Console.WriteLine();
+// game.MakeMove(new Move { from_x = 2, from_y = 2, to_x = 1, to_y = 2, capture = 0 });
+// game.PrintBoard(); Console.WriteLine();
+// Console.WriteLine(game.Winner);
+
 while (true)
 {
     game.PrintBoard();
     Console.WriteLine();
+    MinimaxResult minimaxResult = minimaxer.Evaluate(game, 1);
+    Console.WriteLine($"Evaluation: {minimaxResult.Eval}");
+    Move best_move = minimaxResult.Line[0];
+    Console.WriteLine($"Best move: {best_move.from_x} {best_move.from_y} {best_move.to_x} {best_move.to_y} {best_move.capture}");
 
     Move? move;
     while (true)
@@ -113,31 +206,24 @@ while (true)
 
         if (notation == "undo")
         {
-            try
-            {
-                move = null;
-                break;
-            }
-            catch
-            { }
+            move = null;
+            break;
         }
 
-        try
-            {
-                move = game.FindMove(notation);
-                break;
-            }
-            catch (KeyNotFoundException) { }
+        string[] split = notation.Split(' ');
+        int from_x = int.Parse(split[0]);
+        int from_y = int.Parse(split[1]);
+        int to_x = int.Parse(split[2]);
+        int to_y = int.Parse(split[3]);
+        int capture = int.Parse(split[4]);
+        move = new Move { from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, capture = capture };
+        break;
     }
 
     if (move is null)
     {
-        try
-        {
-            game.UndoMakeMove();
-            Console.WriteLine();
-        }
-        catch { }
+        game.UndoMakeMove();
+        Console.WriteLine();
         continue;
     }
 
@@ -148,18 +234,7 @@ while (true)
     {
         game.PrintBoard();
         Console.WriteLine();
-        switch (game.Winner)
-        {
-            case ChessGame.WHITE:
-                Console.WriteLine("White wins!");
-                break;
-            case ChessGame.BLACK:
-                Console.WriteLine("Black wins!");
-                break;
-            default:
-                Console.WriteLine("Draw");
-                break;
-        }
+        Console.WriteLine($"{game.Winner} wins!");
         return 0;
     }
 }

@@ -1,8 +1,4 @@
-using System.Data;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Xml;
-using Microsoft.VisualBasic;
 
 namespace Chess.Chess
 {
@@ -80,7 +76,7 @@ namespace Chess.Chess
         public static Move BLACK_CASTLES_KINGSIDE_ROOK = new() { from_x = 7, from_y = 7, to_x = 7, to_y = 5, capture = 0, promotion = 0, en_passant = false };
         public static Move BLACK_CASTLES_QUEENSIDE = new() { from_x = 7, from_y = 4, to_x = 7, to_y = 2, capture = 0, promotion = 0, en_passant_file = -1, en_passant = false, stops_white_kingside_castle = false, stops_white_queenside_castle = false, stops_black_kingside_castle = true, stops_black_queenside_castle = true, rule50counter_update = 1 };
         public static Move BLACK_CASTLES_QUEENSIDE_ROOK = new() { from_x = 7, from_y = 0, to_x = 7, to_y = 3, capture = 0, promotion = 0, en_passant = false };
-        
+
         // HASHING
         private static int[,,] piece_position_hashes;
         private static int white_kingside_castle_hash;
@@ -308,7 +304,8 @@ namespace Chess.Chess
                 }
             }
             // Captures
-            foreach (int dir_y in pawn_captures_y) {
+            foreach (int dir_y in pawn_captures_y)
+            {
                 int to_y = from_y + dir_y;
                 if (!IsSqOutOfBounds(to_x, to_y))
                 {
@@ -317,7 +314,7 @@ namespace Chess.Chess
                     else if (to_x == en_passant_rank && to_y == en_passant_files.Peek())
                         AddPawnMove(moves, from_x, from_y, to_x, to_y, prom_rank, en_passant: true);
                 }
-                    
+
             }
         }
 
@@ -440,7 +437,7 @@ namespace Chess.Chess
                 board[move.from_x, move.to_y] = 0;
 
             // Change castling rights
-                can_white_castle_kingside ^= move.stops_white_kingside_castle;
+            can_white_castle_kingside ^= move.stops_white_kingside_castle;
             can_white_castle_queenside ^= move.stops_white_queenside_castle;
             can_black_castle_kingside ^= move.stops_black_kingside_castle;
             can_black_castle_queenside ^= move.stops_black_queenside_castle;
@@ -468,7 +465,7 @@ namespace Chess.Chess
         {
             // Check if history is non-empty
             if (!history.TryPop(out Move move))
-                throw new Exception("No moves have been performed");
+                return false;
 
             // Remove position from previous positions
             prev_positions[hash] -= 1;
@@ -508,7 +505,8 @@ namespace Chess.Chess
             // Place piece back on the original square
             board[move.from_x, move.from_y] = board[move.to_x, move.to_y] ^ move.promotion;
             // Replace piece on the target square
-            if (move.en_passant) {
+            if (move.en_passant)
+            {
                 board[move.to_x, move.to_y] = 0;
                 board[move.from_x, move.to_y] = move.capture;
             }
@@ -616,7 +614,7 @@ namespace Chess.Chess
                     sq_x += dirs_x[i]; sq_y += dirs_y[i];
                 }
             }
-                
+
             return false;
         }
 
@@ -662,7 +660,7 @@ namespace Chess.Chess
                     {
                         return true;
                     }
-                    
+
                 }
             }
 

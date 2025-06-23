@@ -9,3 +9,6 @@ dotnet_diagnostic.CS0660.severity = silent
 
 # IDE0044: Add readonly modifier
 dotnet_diagnostic.IDE0044.severity = silent
+
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = none
