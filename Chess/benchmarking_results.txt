@@ -1,0 +1,25 @@
+2025/06/24 17:23
+Running puzzle set "Easy Mate in 1"
+     Puzzle 0 solved successfully. Time elapsed: 245ms
+     Puzzle 1 solved successfully. Time elapsed: 218ms
+     Puzzle 2 solved successfully. Time elapsed: 36ms
+     Puzzle 3 solved successfully. Time elapsed: 20ms
+Puzzle set solved successfully. Average time to solve set: 520ms (130ms per puzzle).
+Running puzzle set "Hard Mate in 1"
+     Puzzle 0 solved successfully. Time elapsed: 663ms
+     Puzzle 1 solved successfully. Time elapsed: 367ms
+     Puzzle 2 solved successfully. Time elapsed: 807ms
+     Puzzle 3 solved successfully. Time elapsed: 776ms
+Puzzle set solved successfully. Average time to solve set: 2614ms (653ms per puzzle).
+Running puzzle set "Easy Mate in 2"
+     Puzzle 0 solved successfully. Time elapsed: 53ms
+     Puzzle 1 solved successfully. Time elapsed: 310ms
+     Puzzle 2 solved successfully. Time elapsed: 192ms
+     Puzzle 3 solved successfully. Time elapsed: 92ms
+Puzzle set solved successfully. Average time to solve set: 649ms (162ms per puzzle).
+Running puzzle set "Hard Mate in 2"
+     Puzzle 0 solved successfully. Time elapsed: 530ms
+     Puzzle 1 solved successfully. Time elapsed: 895ms
+     Puzzle 2 solved successfully. Time elapsed: 1522ms
+     Puzzle 3 solved successfully. Time elapsed: 216ms
+Puzzle set solved successfully. Average time to solve set: 3163ms (790ms per puzzle).

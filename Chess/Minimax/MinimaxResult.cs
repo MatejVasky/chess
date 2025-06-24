@@ -1,19 +1,17 @@
-using Chess.Hexapawn;
-
 namespace Chess.Minimax
 {
-    class MinimaxResult
+    class MinimaxResult<TMove>
     {
-        public float Eval { get; private set; }
-        public List<Move> Line { get; private set; }
+        public int Eval { get; private set; }
+        public List<TMove> Line { get; private set; }
 
-        public MinimaxResult(float eval)
+        public MinimaxResult(int eval)
         {
             Eval = eval;
             Line = [];
         }
 
-        public void AddMove(Move move)
+        public void AddMove(TMove move)
         {
             Eval = -Eval;
             Line.Insert(0, move);

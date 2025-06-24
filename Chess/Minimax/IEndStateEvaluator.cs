@@ -1,9 +1,7 @@
-using Chess.Hexapawn;
-
 namespace Chess.Minimax
 {
-    interface IEndStateEvaluator
+    interface IEndStateEvaluator<GameType>
     {
-        public float EvaluateEndState(HexapawnGame game);
+        public int EvaluateEndState(GameType game);
     }
 }

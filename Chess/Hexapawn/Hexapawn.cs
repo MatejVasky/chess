@@ -1,8 +1,8 @@
-using System.Xml;
+using Chess.Games;
 
 namespace Chess.Hexapawn
 {
-    class HexapawnGame
+    class HexapawnGame : Game<Move>
     {
         public const int WHITE = 1;
         public const int BLACK = 2;
@@ -26,7 +26,7 @@ namespace Chess.Hexapawn
             history = new();
         }
 
-        public List<Move> GetMoves()
+        public override List<Move> GetMoves()
         {
             if (HasPawnOnTheLastRank() != 0) return [];
 
@@ -53,7 +53,7 @@ namespace Chess.Hexapawn
             return moves;
         }
 
-        public bool MakeMove(Move move)
+        public override bool MakeMove(Move move)
         {
             if (!GetMoves().Contains(move))
                 return false;
@@ -67,7 +67,7 @@ namespace Chess.Hexapawn
             return true;
         }
 
-        public bool UndoMakeMove()
+        public override bool UndoMakeMove()
         {
             if (!history.TryPop(out Move move))
                 return false;
@@ -80,7 +80,7 @@ namespace Chess.Hexapawn
             return true;
         }
 
-        public bool HasEnded()
+        public override bool HasEnded()
         {
             return HasPawnOnTheLastRank() != 0 || GetMoves().Count == 0;
         }
@@ -104,8 +104,9 @@ namespace Chess.Hexapawn
                 return -1;
             }
         }
-        
-        public void PrintBoard() {
+
+        public void PrintBoard()
+        {
             for (int x = 2; x >= 0; x--)
             {
                 for (int y = 0; y < FILES; y++)

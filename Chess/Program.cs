@@ -1,15 +1,16 @@
-﻿// using Chess.Chess;
+﻿using Chess.Games;
+using Chess.Chess;
+using Chess.Chess.Bot;
 
-// static void PrintMove(Move move)
+// static string MoveToString(Move move)
 // {
-//     Console.WriteLine(
+//     return
 //         ((char)('a' + move.from_y)).ToString() + ((char)('1' + move.from_x)).ToString() +
 //         " -> " +
 //         (char)('a' + move.to_y) + (char)('1' + move.to_x) +
 //         ((move.capture == 0) ? "" : " (takes " + ChessGame.piece_names[move.capture] + ")") +
 //         ((move.promotion == 0) ? "" : " (promotes to " + ChessGame.piece_names[(move.promotion ^ ChessGame.PAWN) | ChessGame.WHITE] + ")") +
-//         " " + move.rule50counter_update.ToString()
-//     );
+//         " " + move.rule50counter_update.ToString();
 // }
 
 // ChessGame game = new();
@@ -98,11 +99,82 @@
 // Console.WriteLine($"a8=Q = 'a8=N':     {!game.MoveMatchesNotation(a8Q, "a8=N")}");
 // Console.WriteLine($"axb8=Q = 'axb8=Q': {game.MoveMatchesNotation(axb8Q, "axb8=Q")}");
 
+// string[] mate_in_1 = ["1rb5/4r3/3p1npb/3kp1P1/1P3P1P/5nR1/2Q1BK2/bN4NR w - - 3 61", "rn1q2n1/b3k1pr/pp1pB1Qp/2p1p1P1/2P1PP2/5R1P/P2P4/RNB1K3 w - - 1 24", "8/3r3k/NP1p4/p2QP1P1/1BB3Pp/1R4n1/6K1/5R2 w - - 5 82", "1nr1r3/n4Q2/P1kp2N1/2p3B1/1pp3P1/6P1/1R2P2R/K5N1 w - - 3 43"];
+// string[] mate_in_2 = ["r1bq2r1/b4pk1/p1pp1p2/1p2pP2/1P2P1PB/3P4/1PPQ2P1/R3K2R w KQ - 0 1", "kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1"];
+
+// ChessGame game = new(mate_in_2[0]);
+
+// ConsoleChessPlayer consoleChessPlayer = new();
+// ChessBot bot = new(3);
+// Player<ChessGame, Move>[] players = new Player<ChessGame, Move>[ChessGame.BLACK + 1];
+// players[ChessGame.WHITE] = bot;
+// players[ChessGame.BLACK] = bot;
+
+// // Minimaxer<ChessGame, Move> minimaxer = new(new ChessEndStateEvaluator(), new ChessStaticEvaluator());
+
+// while (!game.HasEnded())
+// {
+//     game.PrintBoard();
+//     Console.WriteLine();
+
+//     // MinimaxResult<Move> evalResult = minimaxer.Evaluate(game, 1);
+//     // Console.WriteLine($"Evaluation: {evalResult.Eval}");
+//     // Console.WriteLine($"Best move: {game.ToAlgebraicNotation(evalResult.Line[0])}");
+//     // Console.WriteLine();
+
+//     if (!players[game.turn].PlayMove(game))
+//         return -1;
+//     Console.WriteLine();
+// }
+
+// game.PrintBoard();
+// Console.WriteLine();
+// switch (game.Winner)
+// {
+//     case ChessGame.WHITE:
+//         Console.WriteLine("White wins!");
+//         break;
+//     case ChessGame.BLACK:
+//         Console.WriteLine("Black wins!");
+//         break;
+//     default:
+//         Console.WriteLine("Draw");
+//         break;
+// }
+
+// return 0;
+
+// using Chess.Hexapawn;
+// using Chess.Minimax;
+
+// HexapawnGame game = new();
+// Minimaxer<HexapawnGame, Move> minimaxer = new(new HexapawnEndstateEvaluator(), new ZeroStaticEvaluator());
+
+// // game.PrintBoard(); Console.WriteLine();
+// // game.MakeMove(new Move { from_x = 0, from_y = 1, to_x = 1, to_y = 1, capture = 0 });
+// // game.PrintBoard(); Console.WriteLine();
+// // // foreach (Move move in game.GetMoves())
+// // //     Console.WriteLine($"{move.from_x} {move.from_y} {move.to_x} {move.to_y} {move.capture}");
+// // game.MakeMove(new Move { from_x = 2, from_y = 0, to_x = 1, to_y = 1, capture = 1 });
+// // game.PrintBoard(); Console.WriteLine();
+// // game.MakeMove(new Move { from_x = 0, from_y = 0, to_x = 1, to_y = 1, capture = 2 });
+// // game.PrintBoard(); Console.WriteLine();
+// // // game.MakeMove(new Move { from_x = 2, from_y = 2, to_x = 1, to_y = 1, capture = 1 });
+// // // game.PrintBoard(); Console.WriteLine();
+// // // game.MakeMove(new Move { from_x = 0, from_y = 2, to_x = 1, to_y = 1, capture = 2 });
+// // // game.PrintBoard(); Console.WriteLine();
+// // game.MakeMove(new Move { from_x = 2, from_y = 2, to_x = 1, to_y = 2, capture = 0 });
+// // game.PrintBoard(); Console.WriteLine();
+// // Console.WriteLine(game.Winner);
 
 // while (true)
 // {
 //     game.PrintBoard();
 //     Console.WriteLine();
+//     MinimaxResult<Move> minimaxResult = minimaxer.Evaluate(game, 1);
+//     Console.WriteLine($"Evaluation: {minimaxResult.Eval}");
+//     Move best_move = minimaxResult.Line[0];
+//     Console.WriteLine($"Best move: {best_move.from_x} {best_move.from_y} {best_move.to_x} {best_move.to_y} {best_move.capture}");
 
 //     Move? move;
 //     while (true)
@@ -113,31 +185,24 @@
 
 //         if (notation == "undo")
 //         {
-//             try
-//             {
-//                 move = null;
-//                 break;
-//             }
-//             catch
-//             { }
+//             move = null;
+//             break;
 //         }
 
-//         try
-//             {
-//                 move = game.FindMove(notation);
-//                 break;
-//             }
-//             catch (KeyNotFoundException) { }
+//         string[] split = notation.Split(' ');
+//         int from_x = int.Parse(split[0]);
+//         int from_y = int.Parse(split[1]);
+//         int to_x = int.Parse(split[2]);
+//         int to_y = int.Parse(split[3]);
+//         int capture = int.Parse(split[4]);
+//         move = new Move { from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, capture = capture };
+//         break;
 //     }
 
 //     if (move is null)
 //     {
-//         try
-//         {
-//             game.UndoMakeMove();
-//             Console.WriteLine();
-//         }
-//         catch { }
+//         game.UndoMakeMove();
+//         Console.WriteLine();
 //         continue;
 //     }
 
@@ -148,93 +213,16 @@
 //     {
 //         game.PrintBoard();
 //         Console.WriteLine();
-//         switch (game.Winner)
-//         {
-//             case ChessGame.WHITE:
-//                 Console.WriteLine("White wins!");
-//                 break;
-//             case ChessGame.BLACK:
-//                 Console.WriteLine("Black wins!");
-//                 break;
-//             default:
-//                 Console.WriteLine("Draw");
-//                 break;
-//         }
+//         Console.WriteLine($"{game.Winner} wins!");
 //         return 0;
 //     }
 // }
 
+Programs.BenchmarkPuzzles();
+// Programs.PlayChess(
+//     starting_position_fen: "kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1",
+//     isWhiteBot: true, isBlackBot: true
+// );
 
-using Chess.Hexapawn;
-using Chess.Minimax;
-
-HexapawnGame game = new();
-Minimaxer minimaxer = new(new HexapawnEndstateEvaluator(), new ZeroStaticEvaluator());
-
-// game.PrintBoard(); Console.WriteLine();
-// game.MakeMove(new Move { from_x = 0, from_y = 1, to_x = 1, to_y = 1, capture = 0 });
-// game.PrintBoard(); Console.WriteLine();
-// // foreach (Move move in game.GetMoves())
-// //     Console.WriteLine($"{move.from_x} {move.from_y} {move.to_x} {move.to_y} {move.capture}");
-// game.MakeMove(new Move { from_x = 2, from_y = 0, to_x = 1, to_y = 1, capture = 1 });
-// game.PrintBoard(); Console.WriteLine();
-// game.MakeMove(new Move { from_x = 0, from_y = 0, to_x = 1, to_y = 1, capture = 2 });
-// game.PrintBoard(); Console.WriteLine();
-// // game.MakeMove(new Move { from_x = 2, from_y = 2, to_x = 1, to_y = 1, capture = 1 });
-// // game.PrintBoard(); Console.WriteLine();
-// // game.MakeMove(new Move { from_x = 0, from_y = 2, to_x = 1, to_y = 1, capture = 2 });
-// // game.PrintBoard(); Console.WriteLine();
-// game.MakeMove(new Move { from_x = 2, from_y = 2, to_x = 1, to_y = 2, capture = 0 });
-// game.PrintBoard(); Console.WriteLine();
-// Console.WriteLine(game.Winner);
-
-while (true)
-{
-    game.PrintBoard();
-    Console.WriteLine();
-    MinimaxResult minimaxResult = minimaxer.Evaluate(game, 1);
-    Console.WriteLine($"Evaluation: {minimaxResult.Eval}");
-    Move best_move = minimaxResult.Line[0];
-    Console.WriteLine($"Best move: {best_move.from_x} {best_move.from_y} {best_move.to_x} {best_move.to_y} {best_move.capture}");
-
-    Move? move;
-    while (true)
-    {
-        Console.Write("Move: ");
-        string? notation = Console.ReadLine();
-        if (notation is null) return -1;
-
-        if (notation == "undo")
-        {
-            move = null;
-            break;
-        }
-
-        string[] split = notation.Split(' ');
-        int from_x = int.Parse(split[0]);
-        int from_y = int.Parse(split[1]);
-        int to_x = int.Parse(split[2]);
-        int to_y = int.Parse(split[3]);
-        int capture = int.Parse(split[4]);
-        move = new Move { from_x = from_x, from_y = from_y, to_x = to_x, to_y = to_y, capture = capture };
-        break;
-    }
-
-    if (move is null)
-    {
-        game.UndoMakeMove();
-        Console.WriteLine();
-        continue;
-    }
-
-    game.MakeMove((Move)move);
-    Console.WriteLine();
-
-    if (game.HasEnded())
-    {
-        game.PrintBoard();
-        Console.WriteLine();
-        Console.WriteLine($"{game.Winner} wins!");
-        return 0;
-    }
-}
+// ChessGame game = new("7k/8/7K/8/1BB5/8/8/8 w - - 0 1");
+// Console.WriteLine(game.IsDrawByInsufficientMaterial());

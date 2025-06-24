@@ -2,9 +2,9 @@ using Chess.Minimax;
 
 namespace Chess.Hexapawn
 {
-    class HexapawnEndstateEvaluator : IEndStateEvaluator
+    class HexapawnEndStateEvaluator : IEndStateEvaluator<HexapawnGame>
     {
-        public float EvaluateEndState(HexapawnGame game)
+        public int EvaluateEndState(HexapawnGame game)
         {
             int winner = game.Winner;
             if (winner == game.turn) return 1;

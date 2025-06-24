@@ -1,14 +1,20 @@
 using Chess.Hexapawn;
+using Chess.Games;
 
 namespace Chess.Minimax
 {
-    interface IStaticEvaluator
+    // interface IStaticEvaluator
+    // {
+    //     public float Evaluate(HexapawnGame game);
+    // }
+
+    interface IStaticEvaluator<TGame>
     {
-        public float Evaluate(HexapawnGame game);
+        public int Evaluate(TGame game);
     }
 
-    class ZeroStaticEvaluator : IStaticEvaluator
+    class ZeroStaticEvaluator : IStaticEvaluator<HexapawnGame>
     {
-        public float Evaluate(HexapawnGame game) => 0;
+        public int Evaluate(HexapawnGame game) => 0;
     }
 }
